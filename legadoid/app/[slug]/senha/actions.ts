@@ -59,7 +59,7 @@ export async function grantAccessAction(
 }
 
 // ─── Verificar se visitante já tem acesso (chamada interna) ───────────────────
-export function hasMemorialAccess(slug: string): boolean {
+export async function hasMemorialAccess(slug: string): Promise<boolean> {
   const cookieStore = cookies();
   return cookieStore.get(`${COOKIE_PREFIX}${slug}`)?.value === "granted";
 }
