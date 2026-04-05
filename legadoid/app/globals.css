@@ -1,0 +1,337 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS VARIABLES (shadcn compat + LEGADO ID) ──────────────────────────── */
+@layer base {
+  :root {
+    --background:   40 30% 98%;
+    --foreground:   240 4% 18%;
+
+    --card:         0 0% 100%;
+    --card-foreground: 240 4% 18%;
+
+    --popover:      0 0% 100%;
+    --popover-foreground: 240 4% 18%;
+
+    /* Âmbar profundo como cor primária */
+    --primary:      38 83% 30%;
+    --primary-foreground: 40 30% 98%;
+
+    --secondary:    40 30% 94%;
+    --secondary-foreground: 240 4% 18%;
+
+    --muted:        40 20% 92%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent:       40 30% 92%;
+    --accent-foreground: 240 4% 18%;
+
+    --destructive:  0 60% 30%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border:       40 20% 88%;
+    --input:        40 20% 88%;
+    --ring:         38 70% 45%;
+
+    --radius: 0.75rem;
+  }
+}
+
+/* ─── BASE STYLES ────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-mist text-stone font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Tipografia display com Cormorant */
+  h1, h2 {
+    @apply font-display;
+  }
+
+  /* Scrollbar elegante */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-sand;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-amber-medium rounded-full opacity-60;
+  }
+
+  /* Seleção de texto com cor da marca */
+  ::selection {
+    background-color: rgba(196, 154, 42, 0.2);
+    color: #2C2C2E;
+  }
+}
+
+/* ─── COMPONENTS ─────────────────────────────────────────────────────────── */
+@layer components {
+  /* Container de seção padrão */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Seção padrão */
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  /* Título de seção */
+  .section-title {
+    @apply font-display text-display-m text-stone text-center;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-muted-foreground text-center mt-3 max-w-2xl mx-auto;
+  }
+
+  /* Cards */
+  .card-base {
+    @apply bg-white rounded-2xl border border-border shadow-card
+           transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5;
+  }
+
+  /* Gradiente de texto âmbar */
+  .text-gradient-amber {
+    @apply bg-gradient-to-r from-amber-deep to-amber-medium bg-clip-text text-transparent;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-gradient-to-r from-sand via-white to-sand bg-[length:200%_100%] animate-shimmer rounded-lg;
+  }
+
+  /* Badge de plano */
+  .badge-free     { @apply bg-muted text-muted-foreground; }
+  .badge-monthly  { @apply bg-amber-soft text-amber-deep; }
+  .badge-lifetime { @apply bg-amber-deep text-white; }
+
+  /* Botão primário */
+  .btn-primary {
+    @apply bg-amber-deep text-white font-sans font-semibold
+           px-6 py-3 rounded-xl transition-all duration-200
+           hover:bg-[#6A4E0E] active:scale-[0.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-medium;
+  }
+
+  /* Botão secundário */
+  .btn-secondary {
+    @apply border border-amber-deep text-amber-deep font-sans font-semibold
+           px-6 py-3 rounded-xl transition-all duration-200
+           hover:bg-amber-soft active:scale-[0.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-medium;
+  }
+
+  /* Input padrão */
+  .input-base {
+    @apply w-full bg-mist border border-border rounded-xl px-4 py-3
+           font-sans text-base text-stone placeholder:text-muted-foreground
+           transition-all duration-200
+           focus:outline-none focus:border-amber-medium focus:shadow-amber;
+  }
+
+  /* Memorial capa overlay */
+  .memorial-cover-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-night/80 via-night/30 to-transparent;
+  }
+}
+
+/* ─── UTILITIES ──────────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Fade in ao scroll */
+  .animate-on-scroll {
+    @apply opacity-0 translate-y-4 transition-all duration-500;
+  }
+  .animate-on-scroll.visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Noise texture sutil */
+  .texture-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* ─── Animações de entrada ──────────────────────────────────────────────── */
+
+  /* Fade + slide up — usado em page entries */
+  .animate-fade-up {
+    animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Fade simples */
+  .animate-fade-in {
+    animation: fadeIn 0.35s ease-out both;
+  }
+
+  /* Fade + slide down — modais, dropdowns */
+  .animate-fade-down {
+    animation: fadeDown 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Escala de entrada — cards, modais */
+  .animate-scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Stagger helpers — aplique nos filhos com delay crescente */
+  .animate-stagger-1 { animation-delay: 60ms; }
+  .animate-stagger-2 { animation-delay: 120ms; }
+  .animate-stagger-3 { animation-delay: 180ms; }
+  .animate-stagger-4 { animation-delay: 240ms; }
+  .animate-stagger-5 { animation-delay: 300ms; }
+
+  /* Glow âmbar pulsante — flame icon, badges premium */
+  .animate-glow-amber {
+    animation: glowAmber 3s ease-in-out infinite;
+  }
+
+  /* Focus ring acessível */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-medium/60 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950;
+  }
+
+  /* Press effect em botões */
+  .press-effect {
+    @apply active:scale-[0.97] transition-transform duration-100;
+  }
+
+  /* Hover lift — cards interativos */
+  .hover-lift {
+    @apply hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200;
+  }
+
+  /* Texto truncado com gradiente */
+  .text-fade-out {
+    -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%);
+    mask-image: linear-gradient(to right, black 70%, transparent 100%);
+  }
+
+  /* Scrollbar fina escura (painel / admin) */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 9999px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* Overlay de input com foco melhorado */
+  .input-dark {
+    @apply bg-white/6 border border-white/8 rounded-xl px-4 py-2.5 text-sm text-white
+           placeholder:text-white/25 outline-none transition-all duration-200
+           focus:border-amber-medium/40 focus:bg-white/8 focus:shadow-[0_0_0_3px_rgba(196,154,42,0.08)];
+  }
+}
+
+/* ─── KEYFRAMES ──────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes glowAmber {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(196, 154, 42, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(196, 154, 42, 0.6));
+  }
+}
+
+/* ─── PÁGINA PÚBLICA — animações de entrada orquestradas ─────────────────── */
+.memorial-hero {
+  animation: fadeIn 0.8s ease-out both;
+}
+
+.memorial-section {
+  animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Delays escalonados para seções do memorial */
+.memorial-section:nth-child(1) { animation-delay: 0ms; }
+.memorial-section:nth-child(2) { animation-delay: 80ms; }
+.memorial-section:nth-child(3) { animation-delay: 160ms; }
+.memorial-section:nth-child(4) { animation-delay: 240ms; }
+
+/* ─── MOBILE — melhorias de toque ───────────────────────────────────────── */
+@media (hover: none) {
+  /* Remove hover states em touch para evitar estados "presos" */
+  .card-base:hover {
+    @apply shadow-card translate-y-0;
+  }
+  /* Aumenta área de toque de botões pequenos */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  /* Exceto elementos inline/de ícone que são decorativos */
+  button.icon-btn {
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+
+/* ─── PRINT — memorial ───────────────────────────────────────────────────── */
+@media print {
+  header, nav, footer, .no-print { display: none !important; }
+  body { background: white; color: black; }
+  .memorial-hero { min-height: auto; }
+}
